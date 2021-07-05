@@ -54,6 +54,7 @@ public class SparkButton extends FrameLayout implements View.OnClickListener {
     boolean pressOnTouch = true;
     float animationSpeed = 1;
     boolean isChecked = false;
+    CountDownTimer timer = null;
 
     private AnimatorSet animatorSet;
     private SparkEventListener listener;
@@ -128,6 +129,16 @@ public class SparkButton extends FrameLayout implements View.OnClickListener {
         }
         setOnTouchListener();
         setOnClickListener(this);
+
+        timer = new CountDownTimer(60000,animationSpeed*1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+            @Override
+            public void onFinish() {
+                playAnimation();
+            }
+        };
     }
 
     /**
@@ -322,5 +333,27 @@ public class SparkButton extends FrameLayout implements View.OnClickListener {
         animationSpeed = a.getFloat(R.styleable.sparkbutton_sparkbutton_animationSpeed, 1);
         // recycle typedArray
         a.recycle();
+    }
+
+    public void startAnimations() {
+        if (animatorSet != null) {
+            animatorSet.cancel();
+        }
+
+        if(timer != null) {
+            timer.cancel();
+        }
+
+        timer.start();
+    }
+
+    public void stopAnimations() {
+        if (animatorSet != null) {
+            animatorSet.cancel();
+        }
+
+        if(timer != null) {
+            timer.cancel();
+        }
     }
 }
